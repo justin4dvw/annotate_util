@@ -6,9 +6,10 @@ import numpy as np
 
 
 class Annotate:
-    ### annotate an image based on pascal voc annotation xml
+
     def __init__(self, annotation_file, class_mapping={}, save_folder=None):
         self.annotation_file = annotation_file if isinstance(annotation_file, list) else [annotation_file]
+        print ("Number of files to be annotated: {}".format(len(self.annotation_file)))
         self.class_mapping=class_mapping
         self.n_classes = len(class_mapping.keys())
         self.save_folder=save_folder
@@ -36,6 +37,9 @@ class Annotate:
                                             'x_max':int(x_max),
                                             'y_max':int(y_max),
                                             })
+        classes = [c['label'] for c in obj_key['labels']]
+
+        print ("Detected {n_classes} class from file {filename}".format(n_classes=len(list(set(classes))) , filename=img_file))
         return obj_key
 
     def __open_image(self, filename ):
